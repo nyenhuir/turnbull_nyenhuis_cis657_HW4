@@ -34,14 +34,4 @@
         app:backgroundTint="@color/colorPrimary"
         app:srcCompat="@drawable/ic_done_black_24dp" />
 
-    <Spinner
-        android:id="@+id/distancespinner"
-        android:layout_width="213dp"
-        android:layout_height="50dp"
-        android:dropDownWidth="wrap_content"
-        android:spinnerMode="dropdown"
-        android:visibility="visible"
-        app:layout_anchor="@+id/include"
-        app:layout_anchorGravity="end|top" />
-
 </android.support.design.widget.CoordinatorLayout>

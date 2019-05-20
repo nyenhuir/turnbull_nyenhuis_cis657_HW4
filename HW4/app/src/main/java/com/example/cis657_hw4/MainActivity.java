@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     EditText lat2;
     EditText long2;
 
+    EditText[] inputarray = new EditText[4];
     String lat1str, lat2str, long1str, long2str;
 
     TextView distanceresult;
@@ -39,12 +40,10 @@ public class MainActivity extends AppCompatActivity {
 
     Button CalculateButton;
     Button ClearButton;
-    Button tempbutton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
         setContentView(R.layout.activity_main_coordinatorlayout);
 
 
@@ -87,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
         getMenuInflater().inflate(R.menu.main_menu, menu);
@@ -96,12 +96,41 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
         if(item.getItemId() == R.id.action_settings) {
+
             Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
-            startActivity(intent);
-            finish();
+            intent.putExtra("lat1",lat1.getText());
+            intent.putExtra("lat2",lat2.getText());
+            intent.putExtra("long1",long1.getText());
+            intent.putExtra("long2",long2.getText());
+            intent.putExtra("currdistunit",DistUnit);
+            intent.putExtra("currbearunit",DistUnit);
+            startActivityForResult(intent,DIST_UNIT);
             return true;
         }
         return false;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        if(resultCode == DIST_UNIT) {
+            DistUnit = data.getStringExtra("distunits");
+            BearUnit = data.getStringExtra("bearunits");
+
+            lat1.setText(data.getStringExtra("lat1"));
+            lat2.setText(data.getStringExtra("lat2"));
+            long1.setText(data.getStringExtra("long1"));
+            long2.setText(data.getStringExtra("long2"));
+        }
+
+        lat1str = lat1.getText().toString();
+        lat2str = lat2.getText().toString();
+        long1str = long1.getText().toString();
+        long2str = long2.getText().toString();
+
+        if ((lat1str.length() != 0) && (lat2str.length() != 0) &&
+                (long1str.length() != 0) && (long2str.length() != 0))
+                    calcDistance();
+
     }
 
 
@@ -112,12 +141,22 @@ public class MainActivity extends AppCompatActivity {
         loc2.setLongitude(Double.parseDouble(long2str));
 
         BigDecimal BDdist = new BigDecimal(Double.toString((loc1.distanceTo(loc2)/1000)));
+
+        if(DistUnit.equals("miles"))
+            BDdist = new BigDecimal(Double.toString(((loc1.distanceTo(loc2)/1000)*.621371)));
+
         BDdist = BDdist.setScale(2, RoundingMode.HALF_UP);
         distance = BDdist.doubleValue();
 
         BigDecimal BDbear = new BigDecimal(Double.toString(loc1.bearingTo(loc2)));
+
+        if(BearUnit.equals("mils"))
+            BDbear = new BigDecimal(Double.toString(loc1.bearingTo(loc2)*17.77777));
+
         BDbear = BDbear.setScale(2, RoundingMode.HALF_UP);
         bearing = BDbear.doubleValue();
+
+
 
 
        distanceresult.setText(""+distance+" "+DistUnit);

@@ -10,11 +10,15 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 public class SettingsActivity extends AppCompatActivity {
 
-    String distUnits = "kilometers";
-    String bearUnits = "degrees";
+    String distUnit = "kilometers";
+    String bearUnit = "degrees";
+    String lat1,lat2,long1,long2;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,11 +31,31 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent();
-                intent.putExtra("vice",distUnits);
+                intent.putExtra("distunits",distUnit);
+                intent.putExtra("bearunits",bearUnit);
+                intent.putExtra("lat1",lat1);
+                intent.putExtra("lat2",lat2);
+                intent.putExtra("long1",long1);
+                intent.putExtra("long2",long2);
                 setResult(MainActivity.DIST_UNIT,intent);
                 finish();
             }
         });
+
+        Intent receiveintent = getIntent();
+        if(receiveintent.hasExtra("currdistunit")&&
+                receiveintent.hasExtra("currbearunit")){
+            distUnit = receiveintent.getStringExtra("currdistunit");
+            bearUnit = receiveintent.getStringExtra("currbearunit");
+            lat1 = receiveintent.getStringExtra("lat1");
+            lat2 = receiveintent.getStringExtra("lat2");
+            long1 = receiveintent.getStringExtra("long1");
+            long2 = receiveintent.getStringExtra("long2");
+
+//            TextView distanceunitid = (TextView) findViewById(R.id.distanceunitid);
+//            distanceunitid.setText("WORKED"+distUnit);
+
+        }
 
         Spinner distunitspinner = (Spinner) findViewById(R.id.distancespinner);
 
@@ -42,7 +66,25 @@ public class SettingsActivity extends AppCompatActivity {
         distunitspinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
             @Override
             public void onItemSelected(AdapterView<?>adapterView, View view, int i, long l) {
-                distUnits = (String) adapterView.getItemAtPosition(i);
+                distUnit = (String) adapterView.getItemAtPosition(i);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView){
+
+            }
+        });
+
+        Spinner bearunitspinner = (Spinner) findViewById(R.id.bearingspinner);
+
+        ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(this,
+                R.array.bearUnits, android.R.layout.simple_spinner_item);
+        adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        bearunitspinner.setAdapter(adapter1);
+        bearunitspinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
+            @Override
+            public void onItemSelected(AdapterView<?>adapterView, View view, int i, long l) {
+                bearUnit = (String) adapterView.getItemAtPosition(i);
             }
 
             @Override
