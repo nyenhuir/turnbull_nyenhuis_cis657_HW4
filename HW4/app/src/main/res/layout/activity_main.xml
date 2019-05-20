@@ -8,14 +8,15 @@ android:visibility="visible"
 tools:context=".MainActivity">
 
 
-    android:id="@+id/main_content"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:visibility="visible"
-    tools:context=".MainActivity">
+
+    <!--android:id="@+id/main_content"-->
+    <!--xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
+    <!--xmlns:tools="http://schemas.android.com/tools"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:visibility="visible"-->
+    <!--tools:context=".MainActivity">-->
 
 
 
@@ -131,16 +132,6 @@ tools:context=".MainActivity">
         android:layout_marginTop="45dp"
         app:layout_constraintStart_toEndOf="@+id/distanceText"
         app:layout_constraintTop_toBottomOf="@+id/CalculateButton" />
-
-    <Button
-        android:id="@+id/tempbutton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="161dp"
-        android:layout_marginTop="80dp"
-        android:text="tempbutton"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bearingresult" />
 
 
 </android.support.constraint.ConstraintLayout>

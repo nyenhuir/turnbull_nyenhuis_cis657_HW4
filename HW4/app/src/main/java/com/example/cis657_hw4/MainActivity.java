@@ -5,6 +5,8 @@ import android.location.Location;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -43,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main_coordinatorlayout);
 
 
         lat1 = (EditText) findViewById(R.id.lat1);
@@ -54,7 +57,6 @@ public class MainActivity extends AppCompatActivity {
 
         CalculateButton = (Button) findViewById(R.id.CalculateButton);
         ClearButton = (Button) findViewById(R.id.ClearButton);
-        tempbutton = (Button) findViewById(R.id.tempbutton);
 
         CalculateButton.setOnClickListener(v -> {
 
@@ -72,8 +74,6 @@ public class MainActivity extends AppCompatActivity {
 
             else calcDistance();
 
-
-
         });
 
         ClearButton.setOnClickListener(y -> {
@@ -85,13 +85,23 @@ public class MainActivity extends AppCompatActivity {
             bearingresult.setText("");
         });
 
-        tempbutton.setOnClickListener(x -> {
+    }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        if(item.getItemId() == R.id.action_settings) {
             Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
             startActivity(intent);
-        });
-
-
+            finish();
+            return true;
+        }
+        return false;
     }
 
 
